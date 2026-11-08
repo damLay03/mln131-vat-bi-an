@@ -6,7 +6,10 @@
 <title>Vật bí ẩn trong nhà – Mở đầu Nhóm 6</title>
 <style>
 :root{
-  --ink:#1f1d2b;
+  --ink:#3b3355;
+  --line:rgba(70,55,100,.12);
+  --shadow:0 10px 30px rgba(70,55,100,.14),0 2px 6px rgba(70,55,100,.08);
+  --shadow-s:0 4px 12px rgba(70,55,100,.14);
   --c:#ffd43b;                                           /* màu chủ đạo, đổi theo từng vật */
   --cl:color-mix(in srgb,var(--c) 32%,#fff);
   --cd:color-mix(in srgb,var(--c) 70%,#000);
@@ -20,11 +23,8 @@ body{background:var(--wall);transition:background-color .8s}
 button,input,textarea{font-family:inherit;color:inherit}
 
 /* ---------- khung chung kiểu sticker hoạt hình ---------- */
-.sticker{background:#fff;border:4px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink)}
-.outline{color:#fff;text-shadow:
-  -4px -4px 0 var(--ink),4px -4px 0 var(--ink),-4px 4px 0 var(--ink),4px 4px 0 var(--ink),
-  0 -4px 0 var(--ink),0 4px 0 var(--ink),-4px 0 0 var(--ink),4px 0 0 var(--ink),
-  8px 10px 0 var(--ink)}
+.sticker{background:#fff;border:0;border-radius:24px;box-shadow:var(--shadow)}
+.outline{color:var(--ink);text-shadow:0 6px 0 var(--c),0 14px 28px rgba(70,55,100,.18);transition:text-shadow .8s}
 
 #app{position:fixed;inset:0;display:flex;flex-direction:column}
 #app.shake{animation:shake .5s}
@@ -36,7 +36,9 @@ button,input,textarea{font-family:inherit;color:inherit}
 #room .tint{fill:var(--c);transition:fill .8s}
 #room .tintd{fill:var(--cd);transition:fill .8s}
 #room .tintl{fill:var(--cl);transition:fill .8s}
-#room .ink{stroke:var(--ink);stroke-linejoin:round;stroke-linecap:round}
+#room [stroke="#1f1d2b"]{stroke:#6f6488;stroke-opacity:.45;stroke-linejoin:round;stroke-linecap:round}
+#room [stroke="#1f1d2b"].dk{stroke:#4a4362;stroke-opacity:.85}
+#room [fill="#1f1d2b"]{fill:#4a4362}
 .cloud{animation:drift linear infinite}
 .c1{animation-duration:26s}.c2{animation-duration:38s;animation-delay:-14s}.c3{animation-duration:31s;animation-delay:-24s}
 @keyframes drift{from{transform:translateX(-160px)}to{transform:translateX(320px)}}
@@ -68,7 +70,7 @@ button,input,textarea{font-family:inherit;color:inherit}
 
 /* đồ vật trôi lơ lửng */
 #floaters{position:absolute;inset:0;z-index:1;pointer-events:none}
-.fl{position:absolute;font-size:var(--s);line-height:1;animation:bob var(--d) ease-in-out infinite alternate;filter:drop-shadow(4px 4px 0 rgba(31,29,43,.3));transition:opacity .4s,transform .4s}
+.fl{position:absolute;font-size:var(--s);line-height:1;animation:bob var(--d) ease-in-out infinite alternate;filter:drop-shadow(0 6px 8px rgba(70,55,100,.2));transition:opacity .4s,transform .4s}
 .fl.out{opacity:0;transform:scale(.2)}
 @keyframes bob{from{translate:0 -14px;rotate:-10deg}to{translate:0 14px;rotate:10deg}}
 
@@ -77,9 +79,9 @@ button,input,textarea{font-family:inherit;color:inherit}
 .pill{white-space:nowrap;padding:4px 18px;font-size:22px;font-weight:800;border-radius:999px;transform:rotate(-2deg)}
 .pill b{font-size:28px}
 .hbtns{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.hbtn{background:#fff;border:3px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);font-size:16px;font-weight:700;padding:3px 12px;cursor:pointer;transition:transform .12s}
+.hbtn{background:#fff;border:0;border-radius:12px;box-shadow:var(--shadow-s);font-size:16px;font-weight:700;padding:3px 12px;cursor:pointer;transition:transform .12s}
 .hbtn:hover{transform:translateY(-2px) rotate(-2deg)}
-.hbtn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.hbtn:active{transform:translateY(1px)}
 .hbtn.off{opacity:.55;text-decoration:line-through}
 
 #main{position:relative;z-index:5;flex:1;min-height:0;overflow-y:auto;display:flex;align-items:safe center;justify-content:center;padding:1vh 5vw 3vh}
@@ -90,12 +92,12 @@ button,input,textarea{font-family:inherit;color:inherit}
 
 /* ---------- nút ---------- */
 .ctrl{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:2.4vh}
-.btn{font-size:clamp(18px,1.7vw,24px);font-weight:800;padding:8px 24px;border-radius:16px;border:4px solid var(--ink);box-shadow:0 6px 0 var(--ink);cursor:pointer;background:#fff;transition:transform .12s,box-shadow .12s}
+.btn{font-size:clamp(18px,1.7vw,24px);font-weight:800;padding:8px 24px;border-radius:16px;border:0;box-shadow:0 5px 0 #e3dccd,var(--shadow-s);cursor:pointer;background:#fff;transition:transform .12s,box-shadow .12s}
 .btn:hover{transform:translateY(-2px) rotate(-1deg)}
-.btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--ink)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 .btn small{opacity:.6;font-weight:700;font-size:.75em}
-.btn.main{background:var(--c);transition:background-color .8s,transform .12s,box-shadow .12s}
-.btn.ok{background:var(--ok)}
+.btn.main{background:var(--c);box-shadow:0 5px 0 var(--cd),var(--shadow-s);transition:background-color .8s,transform .12s,box-shadow .12s}
+.btn.ok{background:var(--ok);box-shadow:0 5px 0 #24a862,var(--shadow-s)}
 .btn.big{font-size:clamp(26px,2.6vw,38px);padding:8px 40px;animation:breathe 1.6s ease-in-out infinite}
 @keyframes breathe{50%{transform:scale(1.06) rotate(-1.5deg)}}
 .btn:disabled{opacity:.4;cursor:default;transform:none}
@@ -107,15 +109,15 @@ button,input,textarea{font-family:inherit;color:inherit}
 .bigtitle .l1{display:block;font-size:clamp(60px,9.5vw,148px);font-weight:800}
 .bigtitle .l1 span{display:inline-block;animation:wave 1.8s ease-in-out infinite}
 @keyframes wave{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-.14em) rotate(-4deg)}}
-.ribbon{display:inline-block;margin-top:1.2vh;padding:0 .5em;font-size:clamp(40px,6vw,92px);font-weight:800;background:var(--ink);color:var(--c);border-radius:18px;transform:rotate(-2deg);box-shadow:8px 8px 0 color-mix(in srgb,var(--ink) 35%,transparent);transition:color .8s}
+.ribbon{display:inline-block;margin-top:1.2vh;padding:0 .5em;font-size:clamp(40px,6vw,92px);font-weight:800;background:var(--ink);color:var(--c);border-radius:18px;transform:rotate(-2deg);box-shadow:var(--shadow);transition:color .8s}
 .lead{display:inline-block;margin:3vh auto 0;padding:10px 26px;font-size:clamp(20px,1.9vw,28px);font-weight:600;line-height:1.35;max-width:980px}
 .lead b{background:var(--cl);padding:0 6px;border-radius:8px}
 .rules{display:flex;justify-content:center;gap:22px;flex-wrap:wrap;margin-top:2.4vh}
 .rule{padding:8px 20px;font-size:clamp(18px,1.6vw,24px);font-weight:800;display:flex;align-items:center;gap:10px}
 .rule:nth-child(1){transform:rotate(-3deg)}.rule:nth-child(2){transform:rotate(2deg)}.rule:nth-child(3){transform:rotate(-1.5deg)}
 .rule i{font-style:normal;font-size:1.6em}
-.keys{display:inline-block;font-size:15px;font-weight:600;margin-top:1.8vh;padding:4px 14px;background:#fff;border:3px solid var(--ink);border-radius:12px}
-kbd{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0 6px;font-family:inherit;font-weight:800;box-shadow:2px 2px 0 var(--ink)}
+.keys{display:inline-block;font-size:15px;font-weight:600;margin-top:1.8vh;padding:4px 14px;background:rgba(255,255,255,.85);border-radius:12px;box-shadow:var(--shadow-s)}
+kbd{background:#f3eee6;border-radius:6px;padding:0 6px;font-family:inherit;font-weight:800;box-shadow:0 2px 0 #ddd4c4}
 .topic{display:inline-block;margin-top:2.6vh;padding:8px 28px;font-size:clamp(24px,2.6vw,38px);font-weight:800;line-height:1.2;background:var(--ink);color:#fff;border-radius:20px;transform:rotate(-1deg)}
 .topic span{color:var(--c)}
 
@@ -141,7 +143,7 @@ kbd{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0 6px;
 .prize.bump{animation:bump .5s}
 @keyframes bump{40%{transform:scale(.85) rotate(-6deg)}}
 
-.candy{display:inline-block;position:relative;width:.9em;height:.9em;margin:0 .42em;border-radius:50%;border:.1em solid var(--ink);vertical-align:middle;background:repeating-linear-gradient(45deg,#ff6b6b 0 .14em,#fff 0 .28em)}
+.candy{display:inline-block;position:relative;width:.9em;height:.9em;margin:0 .42em;border-radius:50%;box-shadow:inset 0 0 0 .06em rgba(0,0,0,.12);vertical-align:middle;background:repeating-linear-gradient(45deg,#ff6b6b 0 .14em,#fff 0 .28em)}
 .candy::before,.candy::after{content:"";position:absolute;top:50%;width:.45em;height:.62em;margin-top:-.31em;background:#ffd43b}
 .candy::before{right:96%;clip-path:polygon(0 0,100% 42%,100% 58%,0 100%)}
 .candy::after{left:96%;clip-path:polygon(100% 0,0 42%,0 58%,100% 100%)}
@@ -149,22 +151,22 @@ kbd{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0 6px;
 
 /* khung chat */
 .chat{overflow:hidden;display:flex;flex-direction:column}
-.chathead{display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--c);border-bottom:4px solid var(--ink);transition:background-color .8s}
-.ava{flex:none;width:52px;height:52px;border-radius:50%;background:#fff;border:3px solid var(--ink);display:grid;place-items:center;font-size:30px;font-weight:800}
+.chathead{display:flex;align-items:center;gap:14px;padding:10px 20px;background:var(--c);transition:background-color .8s}
+.ava{flex:none;width:52px;height:52px;border-radius:50%;background:#fff;box-shadow:var(--shadow-s);display:grid;place-items:center;font-size:30px;font-weight:800}
 .cname{font-size:clamp(20px,1.8vw,26px);font-weight:800;line-height:1.1}
 .cstat{font-size:16px;font-weight:600;display:flex;align-items:center;gap:6px}
-.cstat::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--ok);border:2px solid var(--ink)}
+.cstat::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 3px rgba(255,255,255,.6)}
 .chatbody{height:min(50vh,470px);overflow-y:auto;padding:18px 22px 22px;display:flex;flex-direction:column;gap:14px;scroll-behavior:smooth;
   background:radial-gradient(circle at 20px 20px,color-mix(in srgb,var(--c) 18%,transparent) 3px,transparent 4px) 0 0/34px 34px,#fffdf7}
 .msg{display:flex;align-items:flex-end;gap:12px;animation:msgin .45s cubic-bezier(.2,1.6,.4,1)}
 .msg .ava{width:44px;height:44px;font-size:24px;background:var(--cl)}
-.bubble{position:relative;max-width:88%;background:#fff;border:4px solid var(--ink);border-radius:24px 24px 24px 6px;box-shadow:4px 4px 0 var(--ink);padding:8px 22px 10px}
+.bubble{position:relative;max-width:88%;background:#fff;border-radius:24px 24px 24px 6px;box-shadow:var(--shadow-s);padding:8px 22px 10px}
 .bubble .bn{display:block;font-size:15px;font-weight:800;opacity:.55;letter-spacing:.04em}
 .bubble .bt{font-size:clamp(24px,2.5vw,38px);font-weight:700;line-height:1.25}
 .msg.latest .bubble{background:var(--cl)}
 .typing .bubble{padding:16px 22px}
 .dots{display:flex;gap:8px}
-.dots i{width:13px;height:13px;border-radius:50%;background:var(--ink);animation:dot 1s ease-in-out infinite}
+.dots i{width:13px;height:13px;border-radius:50%;background:#a59cbd;animation:dot 1s ease-in-out infinite}
 .dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}
 @keyframes dot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-9px);opacity:1}}
 @keyframes msgin{from{transform:scale(.4) translateY(30px);opacity:0}}
@@ -176,12 +178,12 @@ kbd{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0 6px;
   background:repeating-conic-gradient(from 0deg,var(--c) 0 9deg,var(--cl) 9deg 18deg);animation:spin 24s linear infinite}
 .rcard{position:relative;text-align:center;padding:2.6vh 4vw 3vh;max-width:min(1100px,92vw);animation:popin .6s cubic-bezier(.2,1.6,.4,1)}
 @keyframes popin{from{transform:scale(.2) rotate(-12deg);opacity:0}}
-.rtag{display:inline-block;margin-bottom:1.2vh;padding:2px 22px;font-size:clamp(20px,2vw,30px);font-weight:800;border:4px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink);transform:rotate(-4deg);background:var(--ok)}
+.rtag{display:inline-block;margin-bottom:1.2vh;padding:2px 22px;font-size:clamp(20px,2vw,30px);font-weight:800;border-radius:14px;box-shadow:var(--shadow-s);transform:rotate(-4deg);background:var(--ok)}
 .rtag.miss{background:#ffd43b}
 .remoji{font-size:clamp(80px,11vw,160px);line-height:1.1;margin-top:1vh;animation:hop 1s ease-in-out infinite;display:inline-block}
 @keyframes hop{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-16px) rotate(6deg)}}
 .ranswer{font-size:clamp(54px,7.6vw,120px);font-weight:800;line-height:1;margin:.5vh 0 1.2vh;animation:answer .7s cubic-bezier(.2,1.8,.4,1) both .1s}
-.ranswer.outline{color:var(--c)}
+.ranswer.outline{color:var(--cd);text-shadow:0 6px 0 var(--cl),0 14px 28px rgba(70,55,100,.15)}
 @keyframes answer{from{transform:scale(0)}60%{transform:scale(1.18)}}
 .rsub{font-size:clamp(22px,2.2vw,34px);font-weight:800}
 .rsub b{background:var(--cl);padding:0 8px;border-radius:10px}
@@ -196,47 +198,47 @@ kbd{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:0 6px;
 .suspense .t span{display:inline-block;animation:wave 1s ease-in-out infinite}
 
 #fx{position:fixed;inset:0;z-index:30;pointer-events:none;overflow:hidden}
-.conf{position:absolute;left:0;top:0;border:2px solid var(--ink)}
+.conf{position:absolute;left:0;top:0}
 
 /* ---------- màn chỉnh sửa ---------- */
 #editor{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;padding:2.5vh 2.5vw;background:rgba(31,29,43,.55);backdrop-filter:blur(3px)}
 #editor.show{display:flex}
 .edpanel{width:min(1240px,100%);height:100%;display:flex;flex-direction:column;overflow:hidden;animation:popin .4s cubic-bezier(.2,1.4,.4,1)}
-.edhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:var(--c);border-bottom:4px solid var(--ink)}
+.edhead{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 20px;background:var(--c)}
 .edhead h2{font-size:26px;font-weight:800}
 .edbody{flex:1;min-height:0;display:grid;grid-template-columns:370px 1fr}
-.edlist{border-right:4px solid var(--ink);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#fffaf0}
-.eitem{display:flex;align-items:center;gap:10px;padding:6px 8px 6px 12px;border:3px solid var(--ink);border-radius:14px;background:#fff;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
-.eitem.sel{outline:4px solid var(--ink);outline-offset:2px}
+.edlist{border-right:1px solid var(--line);overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#fffaf0}
+.eitem{display:flex;align-items:center;gap:10px;padding:6px 8px 6px 12px;border-radius:14px;background:#fff;cursor:pointer;box-shadow:var(--shadow-s)}
+.eitem.sel{outline:3px solid var(--ink);outline-offset:2px}
 .eitem .em{font-size:28px;width:36px;text-align:center}
 .eitem .nm{flex:1;min-width:0;font-weight:800;font-size:17px;line-height:1.15;overflow-wrap:anywhere}
 .eitem .nm small{display:block;font-weight:600;font-size:13px;opacity:.65}
 .eitem .nm.bad{color:#d6336c}
-.mini{background:#fff;border:2px solid var(--ink);border-radius:8px;font-size:14px;font-weight:800;width:30px;height:30px;cursor:pointer;flex:none}
+.mini{background:#fff;border:1.5px solid #ddd4c4;border-radius:8px;font-size:14px;font-weight:800;width:30px;height:30px;cursor:pointer;flex:none}
 .mini:hover{background:var(--cl)}
 .mini:disabled{opacity:.3;cursor:default}
 .edform{overflow-y:auto;padding:18px 24px 24px}
 .field{margin-bottom:16px}
 .field>label{display:block;font-weight:800;font-size:17px;margin-bottom:4px}
 .field>label small{font-weight:600;opacity:.65}
-.inp{width:100%;font-size:19px;font-weight:600;padding:7px 12px;border:3px solid var(--ink);border-radius:12px;background:#fff}
+.inp{width:100%;font-size:19px;font-weight:600;padding:7px 12px;border:2px solid #e2dacb;border-radius:12px;background:#fff}
 .inp:focus{outline:none;box-shadow:0 0 0 4px var(--cl)}
 textarea.inp{resize:vertical;min-height:52px;line-height:1.35}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .picks{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.picks button{font-size:24px;width:44px;height:44px;border:2px solid var(--ink);border-radius:10px;background:#fff;cursor:pointer}
+.picks button{font-size:24px;width:44px;height:44px;border:1.5px solid #e2dacb;border-radius:10px;background:#fff;cursor:pointer}
 .picks button:hover{background:var(--cl)}
-.sw{width:40px;height:40px;border-radius:50%;border:3px solid var(--ink);cursor:pointer}
-.sw.sel{outline:4px solid var(--ink);outline-offset:2px}
-input[type=color]{width:52px;height:42px;border:3px solid var(--ink);border-radius:10px;background:#fff;padding:2px;cursor:pointer}
+.sw{width:40px;height:40px;border-radius:50%;border:3px solid #fff;box-shadow:var(--shadow-s);cursor:pointer}
+.sw.sel{outline:3px solid var(--ink);outline-offset:2px}
+input[type=color]{width:52px;height:42px;border:2px solid #e2dacb;border-radius:10px;background:#fff;padding:2px;cursor:pointer}
 .clueRow{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
 .clueRow .no{flex:none;width:34px;height:34px;margin-top:8px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center;font-weight:800}
 .clueRow .ops{display:flex;flex-direction:column;gap:4px;margin-top:4px}
-.addbtn{border:3px dashed var(--ink);background:transparent;border-radius:12px;padding:6px 14px;font-size:17px;font-weight:800;cursor:pointer}
+.addbtn{border:2px dashed #cfc5b2;background:transparent;border-radius:12px;padding:6px 14px;font-size:17px;font-weight:800;cursor:pointer}
 .addbtn:hover{background:var(--cl)}
-.edfoot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 20px;border-top:4px solid var(--ink);background:#fffaf0;font-weight:700;font-size:16px}
+.edfoot{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 20px;border-top:1px solid var(--line);background:#fffaf0;font-weight:700;font-size:16px}
 .edfoot .grow{flex:1}
-.edfoot input[type=number]{width:70px;font-size:17px;font-weight:700;padding:3px 8px;border:3px solid var(--ink);border-radius:10px}
+.edfoot input[type=number]{width:70px;font-size:17px;font-weight:700;padding:3px 8px;border:2px solid #e2dacb;border-radius:10px}
 .edfoot input[type=checkbox]{width:20px;height:20px;vertical-align:-4px;accent-color:var(--ink)}
 #saveMsg{font-size:14px;opacity:.7}
 #saveMsg.err{color:#d6336c;opacity:1}
@@ -244,7 +246,7 @@ input[type=color]{width:52px;height:42px;border:3px solid var(--ink);border-radi
 
 @media (max-width:760px){
   .edbody{grid-template-columns:1fr;grid-template-rows:200px 1fr}
-  .edlist{border-right:0;border-bottom:4px solid var(--ink)}
+  .edlist{border-right:0;border-bottom:1px solid var(--line)}
   .playtop{flex-wrap:wrap}
   #hud{padding:10px 12px 0}
   #main{padding:1vh 16px 2vh}
@@ -267,12 +269,12 @@ input[type=color]{width:52px;height:42px;border:3px solid var(--ink);border-radi
       <pattern id="tile" width="90" height="90" patternUnits="userSpaceOnUse">
         <rect width="90" height="90" fill="#f7e7cc"/>
         <path class="tint" d="M45 10C58 26 64 32 80 45 64 58 58 64 45 80 32 64 26 58 10 45 26 32 32 26 45 10Z" opacity=".7"/>
-        <circle cx="45" cy="45" r="11" fill="#fff8ea" stroke="#1f1d2b" stroke-width="3"/>
-        <path d="M0 0H14L0 14ZM90 0H76L90 14ZM0 90H14L0 76ZM90 90H76L90 76Z" fill="#1f1d2b" opacity=".8"/>
-        <rect width="90" height="90" fill="none" stroke="#1f1d2b" stroke-opacity=".3" stroke-width="2"/>
+        <circle cx="45" cy="45" r="11" fill="#fff8ea" stroke="#1f1d2b" stroke-width="1.5"/>
+        <path d="M0 0H14L0 14ZM90 0H76L90 14ZM0 90H14L0 76ZM90 90H76L90 76Z" fill="#3b3355" opacity=".18"/>
+        <rect width="90" height="90" fill="none" stroke="#3b3355" stroke-opacity=".12" stroke-width="1.5"/>
       </pattern>
       <pattern id="dots" width="44" height="44" patternUnits="userSpaceOnUse">
-        <circle cx="11" cy="11" r="3.5" fill="#1f1d2b" opacity=".07"/><circle cx="33" cy="33" r="3.5" fill="#1f1d2b" opacity=".07"/>
+        <circle cx="11" cy="11" r="3.5" fill="#1f1d2b" opacity=".05"/><circle cx="33" cy="33" r="3.5" fill="#1f1d2b" opacity=".05"/>
       </pattern>
       <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#74c0fc"/><stop offset="1" stop-color="#d0ebff"/></linearGradient>
       <clipPath id="winClip"><rect x="84" y="114" width="232" height="242"/></clipPath>
@@ -281,54 +283,54 @@ input[type=color]{width:52px;height:42px;border:3px solid var(--ink);border-radi
     <!-- tường + sàn gạch bông -->
     <rect class="wall" width="1600" height="900"/>
     <rect width="1600" height="900" fill="url(#dots)"/>
-    <rect class="tintl" x="-10" y="610" width="1620" height="130" stroke="#1f1d2b" stroke-width="5"/>
-    <path d="M0 640H1600M0 710H1600" stroke="#1f1d2b" stroke-width="3" opacity=".15"/>
-    <rect x="-10" y="598" width="1620" height="18" fill="#fff" stroke="#1f1d2b" stroke-width="5"/>
-    <rect x="-10" y="738" width="1620" height="180" fill="url(#tile)" stroke="#1f1d2b" stroke-width="6"/>
+    <rect class="tintl" x="-10" y="610" width="1620" height="130" stroke="#1f1d2b" stroke-width="2.5"/>
+    <path d="M0 640H1600M0 710H1600" stroke="#1f1d2b" stroke-width="1.5" opacity=".15"/>
+    <rect x="-10" y="598" width="1620" height="18" fill="#fff" stroke="#1f1d2b" stroke-width="2.5"/>
+    <rect x="-10" y="738" width="1620" height="180" fill="url(#tile)" stroke="#1f1d2b" stroke-width="3"/>
 
     <!-- quạt trần -->
     <g transform="translate(800 0)">
-      <rect x="-6" y="-10" width="12" height="54" fill="#868e96" stroke="#1f1d2b" stroke-width="4"/>
-      <ellipse class="blade" cx="0" cy="56" rx="150" ry="11" fill="#fff" stroke="#1f1d2b" stroke-width="5"/>
-      <ellipse class="blade b2" cx="0" cy="56" rx="150" ry="11" fill="#ffe066" stroke="#1f1d2b" stroke-width="5"/>
-      <ellipse cx="0" cy="56" rx="26" ry="18" class="tint" stroke="#1f1d2b" stroke-width="5"/>
-      <ellipse cx="0" cy="76" rx="14" ry="10" fill="#fff3bf" stroke="#1f1d2b" stroke-width="4"/>
+      <rect x="-6" y="-10" width="12" height="54" fill="#868e96" stroke="#1f1d2b" stroke-width="2"/>
+      <ellipse class="blade" cx="0" cy="56" rx="150" ry="11" fill="#fff" stroke="#1f1d2b" stroke-width="2.5"/>
+      <ellipse class="blade b2" cx="0" cy="56" rx="150" ry="11" fill="#ffe066" stroke="#1f1d2b" stroke-width="2.5"/>
+      <ellipse cx="0" cy="56" rx="26" ry="18" class="tint" stroke="#1f1d2b" stroke-width="2.5"/>
+      <ellipse cx="0" cy="76" rx="14" ry="10" fill="#fff3bf" stroke="#1f1d2b" stroke-width="2"/>
     </g>
 
     <!-- cửa sổ: trời, mặt trời, mây, chim -->
     <g>
-      <rect x="66" y="96" width="268" height="278" rx="16" fill="#fff" stroke="#1f1d2b" stroke-width="8"/>
+      <rect x="66" y="96" width="268" height="278" rx="16" fill="#fff" stroke="#1f1d2b" stroke-width="4"/>
       <g clip-path="url(#winClip)">
         <rect x="84" y="114" width="232" height="242" fill="url(#sky)"/>
         <g transform="translate(262 170)">
-          <g class="sunrays"><path d="M0-58V-46M0 46V58M-58 0H-46M46 0H58M-41-41l9 9M32 32l9 9M-41 41l9-9M32-32l9-9" stroke="#1f1d2b" stroke-width="6" stroke-linecap="round"/></g>
-          <circle r="32" fill="#ffd43b" stroke="#1f1d2b" stroke-width="5"/>
+          <g class="sunrays"><path d="M0-58V-46M0 46V58M-58 0H-46M46 0H58M-41-41l9 9M32 32l9 9M-41 41l9-9M32-32l9-9" stroke="#1f1d2b" stroke-width="3" stroke-linecap="round"/></g>
+          <circle r="32" fill="#ffd43b" stroke="#1f1d2b" stroke-width="2.5"/>
           <circle cx="-10" cy="-4" r="3.5" fill="#1f1d2b"/><circle cx="10" cy="-4" r="3.5" fill="#1f1d2b"/>
-          <path d="M-10 9q10 9 20 0" fill="none" stroke="#1f1d2b" stroke-width="4" stroke-linecap="round"/>
+          <path class="dk" d="M-10 9q10 9 20 0" fill="none" stroke="#1f1d2b" stroke-width="2" stroke-linecap="round"/>
         </g>
-        <g class="cloud c1"><path d="M60 230a22 22 0 0 1 30-20 28 28 0 0 1 52 6 18 18 0 0 1 4 34H66a20 20 0 0 1-6-20z" fill="#fff" stroke="#1f1d2b" stroke-width="5"/></g>
-        <g class="cloud c2"><path d="M40 300a16 16 0 0 1 22-14 20 20 0 0 1 38 5 13 13 0 0 1 3 25H45a14 14 0 0 1-5-16z" fill="#fff" stroke="#1f1d2b" stroke-width="4"/></g>
-        <g class="cloud c3"><path d="M50 160a14 14 0 0 1 20-12 18 18 0 0 1 34 4 12 12 0 0 1 3 22H54a12 12 0 0 1-4-14z" fill="#fff" stroke="#1f1d2b" stroke-width="4"/></g>
+        <g class="cloud c1"><path d="M60 230a22 22 0 0 1 30-20 28 28 0 0 1 52 6 18 18 0 0 1 4 34H66a20 20 0 0 1-6-20z" fill="#fff" stroke="#1f1d2b" stroke-width="2.5"/></g>
+        <g class="cloud c2"><path d="M40 300a16 16 0 0 1 22-14 20 20 0 0 1 38 5 13 13 0 0 1 3 25H45a14 14 0 0 1-5-16z" fill="#fff" stroke="#1f1d2b" stroke-width="2"/></g>
+        <g class="cloud c3"><path d="M50 160a14 14 0 0 1 20-12 18 18 0 0 1 34 4 12 12 0 0 1 3 22H54a12 12 0 0 1-4-14z" fill="#fff" stroke="#1f1d2b" stroke-width="2"/></g>
         <g class="birds">
-          <g transform="translate(70 250)"><path class="wing" d="M0 0q9-10 18 0q9-10 18 0" fill="none" stroke="#1f1d2b" stroke-width="4" stroke-linecap="round"/></g>
-          <g transform="translate(110 225) scale(.75)"><path class="wing" d="M0 0q9-10 18 0q9-10 18 0" fill="none" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round" style="animation-delay:-.2s"/></g>
+          <g transform="translate(70 250)"><path class="wing dk" d="M0 0q9-10 18 0q9-10 18 0" fill="none" stroke="#1f1d2b" stroke-width="2" stroke-linecap="round"/></g>
+          <g transform="translate(110 225) scale(.75)"><path class="wing dk" d="M0 0q9-10 18 0q9-10 18 0" fill="none" stroke="#1f1d2b" stroke-width="2.5" stroke-linecap="round" style="animation-delay:-.2s"/></g>
         </g>
-        <path d="M84 330q40-30 80-4t80-8 80 10v40H84z" fill="#8ce99a" stroke="#1f1d2b" stroke-width="4"/>
+        <path d="M84 330q40-30 80-4t80-8 80 10v40H84z" fill="#8ce99a" stroke="#1f1d2b" stroke-width="2"/>
       </g>
-      <path d="M200 112V358M84 236H316" stroke="#1f1d2b" stroke-width="8"/>
-      <path class="tint" d="M40 82h70c-12 70-6 150 22 300H40z" stroke="#1f1d2b" stroke-width="6" stroke-linejoin="round"/>
-      <path class="tint" d="M360 82h-70c12 70 6 150-22 300h92z" stroke="#1f1d2b" stroke-width="6" stroke-linejoin="round"/>
-      <rect x="28" y="70" width="344" height="18" rx="9" fill="#a0522d" stroke="#1f1d2b" stroke-width="5"/>
-      <rect x="48" y="370" width="304" height="20" rx="6" fill="#fff" stroke="#1f1d2b" stroke-width="6"/>
+      <path d="M200 112V358M84 236H316" stroke="#1f1d2b" stroke-width="4"/>
+      <path class="tint" d="M40 82h70c-12 70-6 150 22 300H40z" stroke="#1f1d2b" stroke-width="3" stroke-linejoin="round"/>
+      <path class="tint" d="M360 82h-70c12 70 6 150-22 300h92z" stroke="#1f1d2b" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="28" y="70" width="344" height="18" rx="9" fill="#a0522d" stroke="#1f1d2b" stroke-width="2.5"/>
+      <rect x="48" y="370" width="304" height="20" rx="6" fill="#fff" stroke="#1f1d2b" stroke-width="3"/>
     </g>
 
     <!-- lịch bóc -->
     <g transform="translate(1228 92)">
       <circle cx="78" cy="-6" r="7" fill="#1f1d2b"/>
-      <rect x="0" y="8" width="156" height="200" rx="10" fill="#e8590c" stroke="#1f1d2b" stroke-width="6"/>
+      <rect x="0" y="8" width="156" height="200" rx="10" fill="#e8590c" stroke="#1f1d2b" stroke-width="3"/>
       <g id="calStack">
         <g class="calpage">
-          <rect x="10" y="22" width="136" height="176" rx="6" fill="#fff" stroke="#1f1d2b" stroke-width="4"/>
+          <rect x="10" y="22" width="136" height="176" rx="6" fill="#fff" stroke="#1f1d2b" stroke-width="2"/>
           <text class="calM" x="78" y="52" text-anchor="middle" font-size="20" font-weight="800" fill="#e03131">THÁNG 11</text>
           <text class="calD" x="78" y="138" text-anchor="middle" font-size="86" font-weight="800" fill="#e03131">8</text>
           <text class="calW" x="78" y="178" text-anchor="middle" font-size="19" font-weight="800" fill="#1f1d2b">CHỦ NHẬT</text>
@@ -338,58 +340,58 @@ input[type=color]{width:52px;height:42px;border:3px solid var(--ink);border-radi
 
     <!-- đồng hồ treo tường -->
     <g transform="translate(1474 196)">
-      <circle r="76" class="tint" stroke="#1f1d2b" stroke-width="8"/>
-      <circle r="60" fill="#fff" stroke="#1f1d2b" stroke-width="5"/>
-      <path d="M0-52v12M0 52v-12M-52 0h12M52 0h-12" stroke="#1f1d2b" stroke-width="6" stroke-linecap="round"/>
-      <line id="hh" y2="-28" stroke="#1f1d2b" stroke-width="8" stroke-linecap="round"/>
-      <line id="mh" y2="-44" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
-      <line id="sh" y1="10" y2="-48" stroke="#e03131" stroke-width="3" stroke-linecap="round"/>
+      <circle r="76" class="tint" stroke="#1f1d2b" stroke-width="4"/>
+      <circle r="60" fill="#fff" stroke="#1f1d2b" stroke-width="2.5"/>
+      <path d="M0-52v12M0 52v-12M-52 0h12M52 0h-12" stroke="#1f1d2b" stroke-width="3" stroke-linecap="round"/>
+      <line id="hh" class="dk" y2="-28" stroke="#1f1d2b" stroke-width="4" stroke-linecap="round"/>
+      <line id="mh" class="dk" y2="-44" stroke="#1f1d2b" stroke-width="2.5" stroke-linecap="round"/>
+      <line id="sh" y1="10" y2="-48" stroke="#e03131" stroke-width="1.5" stroke-linecap="round"/>
       <circle r="7" fill="#1f1d2b"/>
     </g>
 
     <!-- kệ tivi + tivi + bình mai -->
     <g>
-      <rect x="1196" y="560" width="380" height="170" rx="14" fill="#c0793f" stroke="#1f1d2b" stroke-width="6"/>
-      <path d="M1386 572V718M1210 644H1562" stroke="#1f1d2b" stroke-width="4"/>
-      <circle cx="1366" cy="608" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="3"/><circle cx="1406" cy="608" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="3"/>
-      <circle cx="1366" cy="684" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="3"/><circle cx="1406" cy="684" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="3"/>
-      <path d="M1214 730v22M1558 730v22" stroke="#1f1d2b" stroke-width="10" stroke-linecap="round"/>
-      <path d="M1440 410l-40-60M1450 410l44-70" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
-      <circle cx="1400" cy="350" r="7" fill="#ff6b6b" stroke="#1f1d2b" stroke-width="3"/><circle cx="1494" cy="340" r="7" fill="#ff6b6b" stroke="#1f1d2b" stroke-width="3"/>
-      <rect x="1428" y="538" width="44" height="24" fill="#495057" stroke="#1f1d2b" stroke-width="5"/>
-      <rect x="1326" y="404" width="248" height="142" rx="18" fill="#343a40" stroke="#1f1d2b" stroke-width="6"/>
-      <rect class="tvscreen" x="1342" y="418" width="216" height="114" rx="10" stroke="#1f1d2b" stroke-width="4"/>
+      <rect x="1196" y="560" width="380" height="170" rx="14" fill="#c0793f" stroke="#1f1d2b" stroke-width="3"/>
+      <path d="M1386 572V718M1210 644H1562" stroke="#1f1d2b" stroke-width="2"/>
+      <circle cx="1366" cy="608" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="1.5"/><circle cx="1406" cy="608" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="1.5"/>
+      <circle cx="1366" cy="684" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="1.5"/><circle cx="1406" cy="684" r="7" fill="#ffd43b" stroke="#1f1d2b" stroke-width="1.5"/>
+      <path d="M1214 730v22M1558 730v22" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
+      <path d="M1440 410l-40-60M1450 410l44-70" stroke="#1f1d2b" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="1400" cy="350" r="7" fill="#ff6b6b" stroke="#1f1d2b" stroke-width="1.5"/><circle cx="1494" cy="340" r="7" fill="#ff6b6b" stroke="#1f1d2b" stroke-width="1.5"/>
+      <rect x="1428" y="538" width="44" height="24" fill="#495057" stroke="#1f1d2b" stroke-width="2.5"/>
+      <rect x="1326" y="404" width="248" height="142" rx="18" fill="#343a40" stroke="#1f1d2b" stroke-width="3"/>
+      <rect class="tvscreen" x="1342" y="418" width="216" height="114" rx="10" stroke="#1f1d2b" stroke-width="2"/>
       <rect class="tvglow" x="1342" y="418" width="216" height="114" rx="10" fill="#fff"/>
-      <path d="M1356 432q20-10 40 0" stroke="#fff" stroke-width="6" fill="none" opacity=".6" stroke-linecap="round"/>
+      <path d="M1356 432q20-10 40 0" stroke="#fff" stroke-width="3" fill="none" opacity=".6" stroke-linecap="round"/>
       <!-- bình hoa mai -->
       <g class="sway">
-        <path d="M1260 560c-6-60-26-110-60-150M1262 520c20-40 46-70 80-88M1240 470c-24-6-44-2-62 10" fill="none" stroke="#5c3a21" stroke-width="6" stroke-linecap="round"/>
-        <g fill="#ffd43b" stroke="#1f1d2b" stroke-width="3">
+        <path d="M1260 560c-6-60-26-110-60-150M1262 520c20-40 46-70 80-88M1240 470c-24-6-44-2-62 10" fill="none" stroke="#5c3a21" stroke-width="3" stroke-linecap="round"/>
+        <g fill="#ffd43b" stroke="#1f1d2b" stroke-width="1.5">
           <circle cx="1200" cy="408" r="10"/><circle cx="1222" cy="440" r="9"/><circle cx="1180" cy="480" r="10"/><circle cx="1342" cy="432" r="10"/>
           <circle cx="1304" cy="452" r="9"/><circle cx="1244" cy="492" r="8"/><circle cx="1214" cy="386" r="8"/><circle cx="1320" cy="420" r="8"/>
         </g>
         <g fill="#e8590c"><circle cx="1200" cy="408" r="3"/><circle cx="1222" cy="440" r="3"/><circle cx="1180" cy="480" r="3"/><circle cx="1342" cy="432" r="3"/><circle cx="1304" cy="452" r="3"/></g>
       </g>
-      <path d="M1236 562c-18-10-22-36-10-56h50c12 20 8 46-10 56z" fill="#4dabf7" stroke="#1f1d2b" stroke-width="5"/>
-      <path d="M1232 530h52" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      <path d="M1236 562c-18-10-22-36-10-56h50c12 20 8 46-10 56z" fill="#4dabf7" stroke="#1f1d2b" stroke-width="2.5"/>
+      <path d="M1232 530h52" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>
     </g>
 
     <!-- sofa + mèo ngủ -->
     <g>
-      <rect x="40" y="520" width="380" height="130" rx="40" class="tintd" stroke="#1f1d2b" stroke-width="6"/>
-      <rect x="70" y="600" width="320" height="76" rx="22" class="tint" stroke="#1f1d2b" stroke-width="6"/>
-      <rect x="20" y="570" width="70" height="140" rx="30" class="tintd" stroke="#1f1d2b" stroke-width="6"/>
-      <rect x="370" y="570" width="70" height="140" rx="30" class="tintd" stroke="#1f1d2b" stroke-width="6"/>
-      <rect x="110" y="548" width="90" height="70" rx="20" fill="#fff" stroke="#1f1d2b" stroke-width="5" transform="rotate(-8 155 583)"/>
-      <path d="M50 712v26M410 712v26" stroke="#1f1d2b" stroke-width="10" stroke-linecap="round"/>
+      <rect x="40" y="520" width="380" height="130" rx="40" class="tintd" stroke="#1f1d2b" stroke-width="3"/>
+      <rect x="70" y="600" width="320" height="76" rx="22" class="tint" stroke="#1f1d2b" stroke-width="3"/>
+      <rect x="20" y="570" width="70" height="140" rx="30" class="tintd" stroke="#1f1d2b" stroke-width="3"/>
+      <rect x="370" y="570" width="70" height="140" rx="30" class="tintd" stroke="#1f1d2b" stroke-width="3"/>
+      <rect x="110" y="548" width="90" height="70" rx="20" fill="#fff" stroke="#1f1d2b" stroke-width="2.5" transform="rotate(-8 155 583)"/>
+      <path d="M50 712v26M410 712v26" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
       <g transform="translate(270 560)">
-        <path class="tail" d="M60 30q40-4 40-40" fill="none" stroke="#1f1d2b" stroke-width="14" stroke-linecap="round"/>
-        <path class="tail" d="M60 30q40-4 40-40" fill="none" stroke="#ffa94d" stroke-width="7" stroke-linecap="round"/>
-        <ellipse cx="34" cy="28" rx="46" ry="26" fill="#ffa94d" stroke="#1f1d2b" stroke-width="5"/>
-        <path d="M-20 4l4-24 14 14M8-6l10-22 8 22" fill="#ffa94d" stroke="#1f1d2b" stroke-width="5" stroke-linejoin="round"/>
-        <circle cx="0" cy="16" r="24" fill="#ffa94d" stroke="#1f1d2b" stroke-width="5"/>
-        <path d="M-12 14q5 5 10 0M4 14q5 5 10 0" fill="none" stroke="#1f1d2b" stroke-width="3.5" stroke-linecap="round"/>
-        <path d="M26 16q6 12 0 22M44 14q6 12 0 22" stroke="#e8590c" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path class="tail" d="M60 30q40-4 40-40" fill="none" stroke="#1f1d2b" stroke-width="7" stroke-linecap="round"/>
+        <path class="tail" d="M60 30q40-4 40-40" fill="none" stroke="#ffa94d" stroke-width="3.5" stroke-linecap="round"/>
+        <ellipse cx="34" cy="28" rx="46" ry="26" fill="#ffa94d" stroke="#1f1d2b" stroke-width="2.5"/>
+        <path d="M-20 4l4-24 14 14M8-6l10-22 8 22" fill="#ffa94d" stroke="#1f1d2b" stroke-width="2.5" stroke-linejoin="round"/>
+        <circle cx="0" cy="16" r="24" fill="#ffa94d" stroke="#1f1d2b" stroke-width="2.5"/>
+        <path class="dk" d="M-12 14q5 5 10 0M4 14q5 5 10 0" fill="none" stroke="#1f1d2b" stroke-width="1.75" stroke-linecap="round"/>
+        <path d="M26 16q6 12 0 22M44 14q6 12 0 22" stroke="#e8590c" stroke-width="2" fill="none" stroke-linecap="round"/>
         <text class="zz" x="10" y="-20" font-size="26" font-weight="800" fill="#1f1d2b">z</text>
         <text class="zz z2" x="10" y="-20" font-size="22" font-weight="800" fill="#1f1d2b">z</text>
         <text class="zz z3" x="10" y="-20" font-size="18" font-weight="800" fill="#1f1d2b">z</text>
@@ -398,30 +400,30 @@ input[type=color]{width:52px;height:42px;border:3px solid var(--ink);border-radi
 
     <!-- bàn trà + ấm chén -->
     <g transform="translate(480 700)">
-      <ellipse cx="80" cy="18" rx="100" ry="22" fill="#a0522d" stroke="#1f1d2b" stroke-width="6"/>
-      <path d="M10 30v70M150 30v70" stroke="#1f1d2b" stroke-width="10" stroke-linecap="round"/>
-      <path d="M40 4c-6-30 4-46 30-46s36 16 30 46z" fill="#fff" stroke="#1f1d2b" stroke-width="5"/>
-      <path d="M100-24q22-6 22 16" fill="none" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
-      <path d="M40-22q-18-6-22 10" fill="none" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
-      <rect x="62" y="-50" width="16" height="10" rx="4" fill="#4dabf7" stroke="#1f1d2b" stroke-width="4"/>
-      <path d="M48-14h44" stroke="#4dabf7" stroke-width="5"/>
-      <path d="M118 0h28l-4 14h-20z" fill="#fff" stroke="#1f1d2b" stroke-width="4"/>
-      <path class="steam" d="M128-6q-8-10 0-20t0-20" fill="none" stroke="#1f1d2b" stroke-width="4" stroke-linecap="round" opacity=".5"/>
-      <path class="steam s2" d="M138-6q-8-10 0-20t0-20" fill="none" stroke="#1f1d2b" stroke-width="4" stroke-linecap="round" opacity=".5"/>
+      <ellipse cx="80" cy="18" rx="100" ry="22" fill="#a0522d" stroke="#1f1d2b" stroke-width="3"/>
+      <path d="M10 30v70M150 30v70" stroke="#1f1d2b" stroke-width="5" stroke-linecap="round"/>
+      <path d="M40 4c-6-30 4-46 30-46s36 16 30 46z" fill="#fff" stroke="#1f1d2b" stroke-width="2.5"/>
+      <path d="M100-24q22-6 22 16" fill="none" stroke="#1f1d2b" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M40-22q-18-6-22 10" fill="none" stroke="#1f1d2b" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="62" y="-50" width="16" height="10" rx="4" fill="#4dabf7" stroke="#1f1d2b" stroke-width="2"/>
+      <path d="M48-14h44" stroke="#4dabf7" stroke-width="2.5"/>
+      <path d="M118 0h28l-4 14h-20z" fill="#fff" stroke="#1f1d2b" stroke-width="2"/>
+      <path class="dk steam" d="M128-6q-8-10 0-20t0-20" fill="none" stroke="#1f1d2b" stroke-width="2" stroke-linecap="round" opacity=".5"/>
+      <path class="dk steam s2" d="M138-6q-8-10 0-20t0-20" fill="none" stroke="#1f1d2b" stroke-width="2" stroke-linecap="round" opacity=".5"/>
     </g>
 
     <!-- chậu cây -->
     <g transform="translate(1080 610)">
       <g class="sway">
-        <path d="M40 40C10 0 0-40 6-80M40 40C40-10 50-50 70-90M40 40c30-30 60-50 92-56M40 40C20 10-10-6-40-8" fill="none" stroke="#2b8a3e" stroke-width="6" stroke-linecap="round"/>
-        <g fill="#51cf66" stroke="#1f1d2b" stroke-width="4">
+        <path d="M40 40C10 0 0-40 6-80M40 40C40-10 50-50 70-90M40 40c30-30 60-50 92-56M40 40C20 10-10-6-40-8" fill="none" stroke="#2b8a3e" stroke-width="3" stroke-linecap="round"/>
+        <g fill="#51cf66" stroke="#1f1d2b" stroke-width="2">
           <ellipse cx="6" cy="-80" rx="14" ry="26" transform="rotate(-10 6 -80)"/><ellipse cx="70" cy="-90" rx="14" ry="26" transform="rotate(25 70 -90)"/>
           <ellipse cx="128" cy="-16" rx="26" ry="13" transform="rotate(-20 128 -16)"/><ellipse cx="-40" cy="-8" rx="26" ry="13" transform="rotate(15 -40 -8)"/>
           <ellipse cx="36" cy="-30" rx="12" ry="22"/>
         </g>
       </g>
-      <path d="M2 40h76l-10 90H12z" fill="#e8590c" stroke="#1f1d2b" stroke-width="6" stroke-linejoin="round"/>
-      <rect x="-4" y="32" width="88" height="20" rx="6" fill="#fd7e14" stroke="#1f1d2b" stroke-width="6"/>
+      <path d="M2 40h76l-10 90H12z" fill="#e8590c" stroke="#1f1d2b" stroke-width="3" stroke-linejoin="round"/>
+      <rect x="-4" y="32" width="88" height="20" rx="6" fill="#fd7e14" stroke="#1f1d2b" stroke-width="3"/>
     </g>
   </svg>
 
