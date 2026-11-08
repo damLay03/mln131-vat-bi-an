@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vật bí ẩn trong nhà – Mở đầu Nhóm 6</title>
+<style>
+:root{--bg:#fff7ea;--bg2:#ffe9cc;--ink:#4a2c1d;--muted:#8a6450;--terra:#d9622b;--terra2:#b84c1c;--sun:#ffc23d;--leaf:#4f9d5d;--card:#fffdf8;--line:#f0d8b8}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif}
+button{font-family:inherit}
+#stage{position:fixed;inset:0;display:flex;flex-direction:column;
+  background:
+    radial-gradient(circle at 88% 8%,rgba(255,194,61,.45) 0,rgba(255,194,61,0) 28%),
+    radial-gradient(circle at 6% 96%,rgba(217,98,43,.14) 0,rgba(217,98,43,0) 30%),
+    linear-gradient(180deg,var(--bg) 0%,var(--bg2) 100%)}
+/* sàn gỗ */
+#stage::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7vh;background:repeating-linear-gradient(90deg,#e7b98a 0 120px,#dfae7c 120px 122px,#e9bf93 122px 240px,#dfae7c 240px 242px);border-top:4px solid #cf9a68;z-index:1}
+
+#hud{position:relative;z-index:5;height:68px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 24px}
+.pill{padding:7px 16px;border-radius:999px;background:#fff;border:2px solid var(--line);font-size:20px;font-weight:700;color:var(--ink)}
+.pill b{font-size:24px;color:var(--terra)}
+.hbtn{background:#fff;border:2px solid var(--line);color:var(--ink);font-size:15px;font-weight:600;padding:8px 13px;border-radius:10px;cursor:pointer;margin-left:6px}
+
+#main{position:relative;z-index:5;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 5vw 9vh}
+.view{width:min(1200px,100%);display:none}
+.view.show{display:block}
+
+/* màn chơi */
+.top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px}
+.title{letter-spacing:.14em;font-size:18px;font-weight:800;color:var(--terra)}
+.blanks{display:flex;flex-wrap:wrap;gap:22px;margin-top:12px}
+.word{display:flex;gap:8px}
+.word i{display:block;width:clamp(26px,2.6vw,40px);height:clamp(36px,3.6vw,54px);border-bottom:5px solid var(--terra);font-style:normal;font-size:clamp(26px,2.8vw,42px);font-weight:900;text-align:center;line-height:1.25;color:var(--terra2)}
+.prize{text-align:right;flex:none;background:#fff;border:2px solid var(--line);border-radius:18px;padding:10px 18px;box-shadow:0 6px 0 var(--line)}
+.prize .lab{font-size:16px;color:var(--muted);font-weight:600}
+.prize .val{font-size:clamp(32px,3.4vw,48px);font-weight:900;color:var(--terra);line-height:1.1}
+.candy{display:inline-block;width:.62em;height:.62em;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff8,transparent 45%),var(--sun);border:2px solid #e9a21f;margin-left:.12em;vertical-align:.04em}
+.candy.off{background:#f4e6d2;border-color:#ead6bb}
+
+.clues{display:flex;flex-direction:column;gap:14px}
+.clue{display:flex;align-items:center;gap:20px;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:16px 26px;min-height:82px;box-shadow:0 6px 0 var(--line)}
+.clue .n{flex:none;width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:24px;font-weight:900;background:#f6e7d3;color:#c7a487}
+.clue .t{font-size:clamp(24px,2.6vw,38px);font-weight:700;line-height:1.3}
+.clue.hidden{background:#fbf1e3}
+.clue.hidden .t{color:transparent;background:repeating-linear-gradient(90deg,#efdcc3 0 14px,transparent 14px 22px);border-radius:8px;user-select:none;min-width:55%;height:.9em}
+.clue.shown{border-color:#f0b88f;animation:in .45s cubic-bezier(.2,1.3,.4,1)}
+.clue.shown .n{background:var(--terra);color:#fff}
+.clue.latest{border-color:var(--sun);box-shadow:0 6px 0 #f2c86a,0 0 0 4px rgba(255,194,61,.35)}
+@keyframes in{from{transform:translateX(-30px);opacity:0}}
+
+.ctrl{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px;justify-content:center}
+.btn{font-size:20px;font-weight:800;padding:13px 22px;border-radius:14px;border:0;cursor:pointer;transition:transform .15s}
+.btn:active{transform:translateY(3px)}
+.btn small{opacity:.7;font-weight:600}
+.btn.main{background:var(--terra);color:#fff;box-shadow:0 5px 0 var(--terra2)}
+.btn.ok{background:var(--leaf);color:#fff;box-shadow:0 5px 0 #3a7a46}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:0 5px 0 var(--line)}
+.btn:disabled{opacity:.35;cursor:default}
+
+/* lộ đáp án */
+#reveal{position:fixed;inset:0;z-index:20;display:none;align-items:center;justify-content:center;background:rgba(255,244,226,.86);backdrop-filter:blur(3px)}
+#reveal.show{display:flex}
+.rcard{text-align:center;padding:40px 60px;animation:pop .55s cubic-bezier(.2,1.5,.4,1)}
+.rcard .tag{letter-spacing:.16em;color:var(--leaf);font-size:20px;font-weight:800}
+.rcard h1{font-size:clamp(56px,8.5vw,128px);font-weight:900;line-height:1.05;margin:14px 0;color:var(--terra);text-shadow:0 6px 0 #f5cfa9}
+.rcard .sub{font-size:clamp(24px,2.6vw,38px);font-weight:700}
+.rcard .sub b{color:var(--terra2)}
+.rcard .note{font-size:22px;color:var(--muted);margin-top:10px}
+@keyframes pop{from{transform:scale(.3);opacity:0}}
+
+/* màn mở / kết: ngôi nhà */
+.hero{text-align:center}
+.house{position:relative}
+.roof{width:0;height:0;margin:0 auto -6px;border-left:min(30vw,360px) solid transparent;border-right:min(30vw,360px) solid transparent;border-bottom:min(6.5vw,84px) solid var(--terra);filter:drop-shadow(0 6px 0 var(--terra2))}
+.chim{position:absolute;top:min(1vw,12px);right:calc(50% - min(19vw,228px));width:min(3vw,38px);height:min(4.5vw,56px);background:#b84c1c;border-radius:4px 4px 0 0}
+.wall{width:min(56vw,672px);margin:0 auto;background:var(--card);border:3px solid var(--line);border-top:0;border-radius:0 0 22px 22px;padding:24px 30px 20px;box-shadow:0 8px 0 var(--line)}
+.hero .tag{letter-spacing:.16em;color:var(--terra);font-size:18px;font-weight:800}
+.hero h1{font-size:clamp(38px,5vw,76px);font-weight:900;line-height:1.05;margin:8px 0 6px;color:var(--ink)}
+.hero h1 span{color:var(--terra)}
+.hero .lead{font-size:clamp(20px,2vw,28px);color:var(--muted);line-height:1.45;max-width:980px;margin:18px auto 0}
+.hero .lead b{color:var(--ink)}
+.rules{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin:18px 0 0}
+.rule{background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 20px;font-size:20px;font-weight:700;max-width:330px;box-shadow:0 5px 0 var(--line)}
+.rule em{display:block;font-style:normal;color:var(--terra);font-size:15px;letter-spacing:.1em;margin-bottom:4px;font-weight:800}
+.keys{font-size:15px;color:var(--muted);margin-top:14px}
+kbd{background:#fff;border:2px solid var(--line);border-radius:6px;padding:0 7px;font-family:inherit;font-weight:700;color:var(--ink)}
+.topic{margin-top:14px;font-size:clamp(24px,2.6vw,36px);font-weight:900;line-height:1.25;color:var(--terra2)}
+.conf{position:fixed;width:12px;height:16px;z-index:25;pointer-events:none;border-radius:3px}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="hud">
+    <span class="pill" id="count">Vật bí ẩn <b>0</b>/0</span>
+    <div>
+      <button class="hbtn" id="muteBtn" onclick="toggleMute()">Âm thanh: bật</button>
+      <button class="hbtn" onclick="toggleFS()">Toàn màn hình</button>
+    </div>
+  </div>
+
+  <div id="main">
+    <!-- màn mở đầu -->
+    <div class="view show" id="vIntro"><div class="hero">
+      <div class="house"><div class="chim"></div><div class="roof"></div><div class="wall">
+        <div class="tag">MINI GAME MỞ ĐẦU · NHÓM 6</div>
+        <h1>VẬT BÍ ẨN<br><span>TRONG NHÀ</span></h1>
+      </div></div>
+      <div class="lead">Đoán một thứ <b>nhà nào cũng có</b>. Gợi ý hiện dần từng dòng, từ khó đến dễ.</div>
+      <div class="rules">
+        <div class="rule"><em>BƯỚC 1</em>Đoán ra? Giơ tay!</div>
+        <div class="rule"><em>BƯỚC 2</em>Nói đáp án, đúng là có kẹo</div>
+        <div class="rule"><em>MẸO</em>Đoán càng sớm, kẹo càng nhiều</div>
+      </div>
+      <div class="ctrl"><button class="btn main" onclick="startGame()">Bắt đầu ▶ <small>(Space)</small></button></div>
+      <div class="keys">Người điều khiển: <kbd>Space</kbd> gợi ý tiếp / sang vật tiếp · <kbd>Enter</kbd> có người đoán đúng · <kbd>A</kbd> không ai đoán ra, lộ đáp án</div>
+    </div></div>
+
+    <!-- màn chơi -->
+    <div class="view" id="vPlay">
+      <div class="top">
+        <div>
+          <div class="title" id="itemTitle">VẬT BÍ ẨN SỐ 1</div>
+          <div class="blanks" id="blanks"></div>
+        </div>
+        <div class="prize"><div class="lab">Đoán đúng ngay lúc này được</div><div class="val" id="prize"></div></div>
+      </div>
+      <div class="clues" id="clues"></div>
+      <div class="ctrl">
+        <button class="btn main" id="nextBtn" onclick="nextClue()">Gợi ý tiếp ▶ <small>(Space)</small></button>
+        <button class="btn ok" onclick="reveal(true)">Có người đoán đúng! <small>(Enter)</small></button>
+        <button class="btn ghost" onclick="reveal(false)">Lộ đáp án <small>(A)</small></button>
+      </div>
+    </div>
+
+    <!-- màn kết -->
+    <div class="view" id="vEnd"><div class="hero">
+      <div class="house"><div class="chim"></div><div class="roof"></div><div class="wall">
+        <div class="tag">HẾT GIỜ CHƠI</div>
+        <h1>Toàn những thứ<br><span>rất quen</span></h1>
+      </div></div>
+      <div class="lead">Nhưng mâm cơm, ngày Tết hay cách cả nhà nói chuyện với nhau<br>đã <b>khác ngày xưa</b> thế nào? Vì sao lại khác?</div>
+      <div class="topic">Xây dựng gia đình Việt Nam<br>trong thời kỳ quá độ lên chủ nghĩa xã hội</div>
+      <div class="ctrl" style="margin-top:18px"><button class="btn ghost" onclick="restart()">Chơi lại</button></div>
+    </div></div>
+  </div>
+</div>
+
+<div id="reveal"><div class="rcard" id="rcard"></div></div>
+
+<script>
+/* ============ VẬT BÍ ẨN – sửa ở đây ============
+   answer: đáp án (in hoa khi hiện) · accept: các cách nói khác vẫn tính đúng (chỉ để người dẫn tham khảo)
+   clues: 4 gợi ý, từ khó đến dễ */
+const ITEMS = [
+  {answer:"Remote TV", accept:"cái điều khiển tivi, cái remote",
+   clues:["Mình nhỏ xíu nhưng có rất nhiều nút",
+          "Hay mất tích, thường tìm thấy dưới gối hoặc trong khe ghế",
+          "Buổi tối cả nhà hay giành nhau",
+          "Ba thường giữ để xem thời sự hoặc bóng đá"]},
+  {answer:"Nồi cơm điện", accept:"nồi cơm",
+   clues:["Ngày nào cũng làm việc, nhưng phải cắm điện mới chịu làm",
+          "Xong việc thì kêu “tạch” một tiếng",
+          "Mẹ hay nhắn: “Về sớm thì bấm giùm mẹ…”",
+          "Nằm trong bếp, nấu thứ không thể thiếu trong bữa ăn người Việt"]},
+  {answer:"Nhóm chat gia đình", accept:"group chat gia đình, nhóm Zalo gia đình",
+   clues:["Đã vào thì rất khó rời đi, dù đôi khi muốn",
+          "Sáng nào cũng có ảnh hoa và lời chúc ngày mới",
+          "Nơi tin “nóng” chưa kiểm chứng lan nhanh nhất",
+          "Hay có tên kiểu “Đại gia đình yêu thương” trên Zalo"]},
+  {answer:"Mâm cơm", accept:"bữa cơm gia đình, mâm cơm gia đình",
+   clues:["Gặp nhau ít nhất mỗi ngày một lần, thường vào buổi tối",
+          "Trước khi bắt đầu phải “mời” từng người",
+          "Thường có canh, rau và một món mặn",
+          "Cả nhà ngồi quây quần xung quanh nó"]},
+  {answer:"Sổ hộ khẩu", accept:"hộ khẩu",
+   clues:["Ngày xưa nhà nào cũng cất rất kỹ, giờ đã “nghỉ hưu”",
+          "Ghi tên tất cả thành viên trong nhà",
+          "Đi làm giấy tờ là phải mang theo",
+          "Từ năm 2023 không còn dùng, thay bằng dữ liệu cư trú điện tử"]},
+  {answer:"Tết", accept:"Tết Nguyên đán",
+   clues:["Mỗi năm đến một lần, ai cũng mong",
+          "Đi kèm những câu hỏi khó: “Có người yêu chưa?”, “Lương bao nhiêu?”",
+          "Có bánh chưng, mứt, hoa mai hoặc hoa đào",
+          "Trẻ con được nhận lì xì"]},
+];
+/* số kẹo theo số gợi ý đã hiện: hiện 1 gợi ý → 3 kẹo, 2 → 2, 3 hoặc 4 → 1 */
+const PRIZE = [3,3,2,1,1];
+const COLORS = ["#d9622b","#ffc23d","#4f9d5d","#f28c8c","#5aa9e6","#f2a65a","#9b6fd1"];
+
+const $ = s=>document.querySelector(s);
+let idx=0, shown=0, state="intro";
+const esc = s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* âm thanh tự tổng hợp */
+let ac=null, muted=false;
+function actx(){if(!ac){try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){}}if(ac&&ac.state==="suspended")ac.resume();return ac}
+function tone(f,d=.15,type="sine",v=.14,f2=null,delay=0){if(muted)return;const a=actx();if(!a)return;const t=a.currentTime+delay,o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d+.03)}
+const sfx={
+  clue:()=>{tone(660,.09,"square",.07);tone(990,.14,"square",.07,null,.08)},
+  ok:()=>[523,659,784,1047,1319].forEach((f,i)=>tone(f,.22,"triangle",.14,null,i*.09)),
+  miss:()=>[440,349,262].forEach((f,i)=>tone(f,.25,"sawtooth",.07,null,i*.16)),
+  start:()=>[392,523,659].forEach((f,i)=>tone(f,.16,"triangle",.12,null,i*.1)),
+};
+function toggleMute(){muted=!muted;$("#muteBtn").textContent="Âm thanh: "+(muted?"tắt":"bật")}
+function toggleFS(){try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}}
+
+function show(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("show",v.id===id))}
+function updateCount(){$("#count").innerHTML=`Vật bí ẩn <b>${Math.min(idx+1,ITEMS.length)}</b>/${ITEMS.length}`}
+
+function startGame(){actx();sfx.start();idx=0;loadItem()}
+function restart(){idx=0;state="intro";show("vIntro");updateCount()}
+
+function loadItem(){
+  state="play"; shown=0; updateCount();
+  const it=ITEMS[idx];
+  $("#itemTitle").textContent=`VẬT BÍ ẨN SỐ ${idx+1}`;
+  // ô chữ trống: cho biết số chữ cái của từng từ
+  $("#blanks").innerHTML=it.answer.trim().split(/\s+/).map(w=>`<div class="word">${[...w].map(()=>"<i></i>").join("")}</div>`).join("");
+  $("#clues").innerHTML=it.clues.map((c,i)=>`<div class="clue hidden"><div class="n">${i+1}</div><div class="t">${esc(c)}</div></div>`).join("");
+  show("vPlay");
+  nextClue();
+}
+function updatePrize(){
+  const n=PRIZE[Math.min(shown,PRIZE.length-1)];
+  $("#prize").innerHTML=`${n} kẹo `+[0,1,2].map(i=>`<span class="candy ${i<n?"":"off"}"></span>`).join("");
+  $("#nextBtn").disabled=shown>=ITEMS[idx].clues.length;
+}
+function nextClue(){
+  if(state!=="play")return;
+  const els=[...document.querySelectorAll(".clue")];
+  if(shown>=els.length){reveal(false);return}
+  els.forEach(e=>e.classList.remove("latest"));
+  els[shown].classList.remove("hidden");els[shown].classList.add("shown","latest");
+  shown++; sfx.clue(); updatePrize();
+}
+function reveal(guessed){
+  if(state!=="play")return; state="reveal";
+  const it=ITEMS[idx], n=PRIZE[Math.min(shown,PRIZE.length-1)];
+  document.querySelectorAll(".clue").forEach(e=>{e.classList.remove("hidden","latest");e.classList.add("shown")});
+  // điền chữ vào ô trống
+  const words=it.answer.trim().split(/\s+/);
+  document.querySelectorAll("#blanks .word").forEach((w,wi)=>[...w.children].forEach((c,ci)=>c.textContent=[...words[wi]][ci].toUpperCase()));
+  $("#rcard").innerHTML=`
+    <div class="tag">${guessed?"CHÍNH XÁC!":"ĐÁP ÁN LÀ"}</div>
+    <h1>${esc(it.answer.toUpperCase())}</h1>
+    <div class="sub">${guessed?`Đoán ra sau ${shown} gợi ý · Phần thưởng: <b>${n} kẹo</b>`:"Khó quá phải không? Vật tiếp theo dễ hơn!"}</div>
+    ${it.accept?`<div class="note">Cũng tính đúng: ${esc(it.accept)}</div>`:""}
+    <div class="ctrl" style="margin-top:26px"><button class="btn main" onclick="nextItem()">${idx+1<ITEMS.length?"Vật tiếp theo":"Kết thúc"} ▶ <small>(Space)</small></button></div>`;
+  $("#reveal").classList.add("show");
+  if(guessed){sfx.ok();confetti()}else sfx.miss();
+}
+function nextItem(){
+  if(state!=="reveal")return;
+  $("#reveal").classList.remove("show");
+  idx++;
+  if(idx>=ITEMS.length){state="end";show("vEnd");sfx.start();return}
+  loadItem();
+}
+function confetti(){
+  for(let i=0;i<70;i++){
+    const c=document.createElement("div");c.className="conf";c.style.left=innerWidth/2+"px";c.style.top=innerHeight*.42+"px";
+    c.style.background=COLORS[i%COLORS.length];document.body.appendChild(c);
+    const a=Math.random()*Math.PI*2,v=200+Math.random()*420;
+    c.animate([{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${Math.cos(a)*v}px,${Math.sin(a)*v+260}px) rotate(${Math.random()*900}deg)`,opacity:0}],{duration:1500+Math.random()*700,easing:"cubic-bezier(.2,.6,.4,1)"}).finished.then(()=>c.remove());
+  }
+}
+
+document.addEventListener("keydown",e=>{
+  const k=e.code;
+  if(k==="Space"||k==="ArrowRight"){e.preventDefault();
+    if(state==="intro")startGame(); else if(state==="play")nextClue(); else if(state==="reveal")nextItem(); return}
+  if(state==="play"){ if(k==="Enter"||k==="NumpadEnter"){e.preventDefault();reveal(true)} else if(k==="KeyA")reveal(false) }
+});
+updateCount();
+</script>
+</body>
+</html>
