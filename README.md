@@ -13,7 +13,7 @@ Lần đầu bấm vào trang để trình duyệt cho phát âm thanh. Bấm **
 
 ## Luật chơi
 
-Đoán một thứ nhà nào cũng có: remote TV, nồi cơm điện, nhóm chat gia đình, mâm cơm, sổ hộ khẩu, Tết. Mỗi vật có 4 gợi ý hiện dần từ khó đến dễ, kèm ô chữ trống cho biết số chữ cái.
+Đoán một thứ nhà nào cũng có: remote TV, nồi cơm điện, nhóm chat gia đình, mâm cơm, sổ hộ khẩu, Tết. Mỗi vật có 4 gợi ý hiện dần từ khó đến dễ. Chỉ cần nói đúng vật đó là được, không cần đúng từng chữ.
 
 Ai đoán ra thì giơ tay. Đoán càng sớm thì kẹo càng nhiều:
 

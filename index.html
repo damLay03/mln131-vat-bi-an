@@ -29,9 +29,6 @@ button{font-family:inherit}
 /* màn chơi */
 .top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px}
 .title{letter-spacing:.14em;font-size:18px;font-weight:800;color:var(--terra)}
-.blanks{display:flex;flex-wrap:wrap;gap:22px;margin-top:12px}
-.word{display:flex;gap:8px}
-.word i{display:block;width:clamp(26px,2.6vw,40px);height:clamp(36px,3.6vw,54px);border-bottom:5px solid var(--terra);font-style:normal;font-size:clamp(26px,2.8vw,42px);font-weight:900;text-align:center;line-height:1.25;color:var(--terra2)}
 .prize{text-align:right;flex:none;background:#fff;border:2px solid var(--line);border-radius:18px;padding:10px 18px;box-shadow:0 6px 0 var(--line)}
 .prize .lab{font-size:16px;color:var(--muted);font-weight:600}
 .prize .val{font-size:clamp(32px,3.4vw,48px);font-weight:900;color:var(--terra);line-height:1.1}
@@ -121,7 +118,6 @@ kbd{background:#fff;border:2px solid var(--line);border-radius:6px;padding:0 7px
       <div class="top">
         <div>
           <div class="title" id="itemTitle">VẬT BÍ ẨN SỐ 1</div>
-          <div class="blanks" id="blanks"></div>
         </div>
         <div class="prize"><div class="lab">Đoán đúng ngay lúc này được</div><div class="val" id="prize"></div></div>
       </div>
@@ -215,8 +211,6 @@ function loadItem(){
   state="play"; shown=0; updateCount();
   const it=ITEMS[idx];
   $("#itemTitle").textContent=`VẬT BÍ ẨN SỐ ${idx+1}`;
-  // ô chữ trống: cho biết số chữ cái của từng từ
-  $("#blanks").innerHTML=it.answer.trim().split(/\s+/).map(w=>`<div class="word">${[...w].map(()=>"<i></i>").join("")}</div>`).join("");
   $("#clues").innerHTML=it.clues.map((c,i)=>`<div class="clue hidden"><div class="n">${i+1}</div><div class="t">${esc(c)}</div></div>`).join("");
   show("vPlay");
   nextClue();
@@ -238,9 +232,6 @@ function reveal(guessed){
   if(state!=="play")return; state="reveal";
   const it=ITEMS[idx], n=PRIZE[Math.min(shown,PRIZE.length-1)];
   document.querySelectorAll(".clue").forEach(e=>{e.classList.remove("hidden","latest");e.classList.add("shown")});
-  // điền chữ vào ô trống
-  const words=it.answer.trim().split(/\s+/);
-  document.querySelectorAll("#blanks .word").forEach((w,wi)=>[...w.children].forEach((c,ci)=>c.textContent=[...words[wi]][ci].toUpperCase()));
   $("#rcard").innerHTML=`
     <div class="tag">${guessed?"CHÍNH XÁC!":"ĐÁP ÁN LÀ"}</div>
     <h1>${esc(it.answer.toUpperCase())}</h1>
