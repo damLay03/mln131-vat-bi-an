@@ -13,7 +13,9 @@ Lần đầu bấm vào trang để trình duyệt cho phát âm thanh. Bấm **
 
 ## Luật chơi
 
-Đoán một thứ nhà nào cũng có: remote TV, nồi cơm điện, nhóm chat gia đình, mâm cơm, sổ hộ khẩu, Tết. Mỗi vật có 4 gợi ý hiện dần từ khó đến dễ. Chỉ cần nói đúng vật đó là được, không cần đúng từng chữ.
+Đoán một thứ nhà nào cũng có: remote TV, nồi cơm điện, nhóm chat gia đình, mâm cơm, sổ hộ khẩu, Tết. Gợi ý hiện dần như tin nhắn trong nhóm chat, từ khó đến dễ. Chỉ cần nói đúng vật đó là được, không cần đúng từng chữ.
+
+Mỗi gợi ý có 15 giây. Hết giờ thì tự hiện gợi ý tiếp, hết gợi ý cuối thì tự lộ đáp án.
 
 Ai đoán ra thì giơ tay. Đoán càng sớm thì kẹo càng nhiều:
 
@@ -21,7 +23,7 @@ Ai đoán ra thì giơ tay. Đoán càng sớm thì kẹo càng nhiều:
 |---|---|
 | Sau gợi ý 1 | 3 kẹo |
 | Sau gợi ý 2 | 2 kẹo |
-| Sau gợi ý 3 hoặc 4 | 1 kẹo |
+| Từ gợi ý 3 trở đi | 1 kẹo |
 
 Màn cuối dẫn vào bài: những thứ rất quen ấy đã khác ngày xưa thế nào, và vì sao lại khác.
 
@@ -32,13 +34,26 @@ Màn cuối dẫn vào bài: những thứ rất quen ấy đã khác ngày xưa
 | `Space` / `→` | Hiện gợi ý tiếp / sang vật tiếp theo |
 | `Enter` | Có người đoán đúng: lộ đáp án và báo số kẹo |
 | `A` | Không ai đoán ra: lộ đáp án |
+| `P` | Dừng / chạy tiếp đồng hồ (hoặc bấm vào đồng hồ) |
+| `E` | Mở màn sửa đồ vật |
+| `M` | Bật / tắt nhạc nền |
+| `F` | Toàn màn hình |
 
-## Sửa nội dung
+## Sửa đồ vật và gợi ý
 
-Mở `index.html` và tìm `const ITEMS`. Mỗi vật có:
+Bấm **✏️ Sửa đồ vật** (hoặc phím `E`) ngay trong game. Ở đó có thể:
 
-- `answer`: đáp án
-- `accept`: các cách nói khác vẫn tính đúng
-- `clues`: 4 gợi ý, xếp từ khó đến dễ
+- thêm, xoá, đổi thứ tự các vật;
+- sửa đáp án, các cách nói khác vẫn tính đúng;
+- thêm, xoá, đổi thứ tự gợi ý (bao nhiêu gợi ý cũng được, xếp từ khó đến dễ);
+- chọn emoji minh hoạ và màu chủ đạo cho từng vật (nền, khung chat, nút đổi theo màu này);
+- chỉnh số giây mỗi gợi ý (0 là tắt đồng hồ) và bật/tắt tự hiện gợi ý khi hết giờ.
 
-Số kẹo theo từng gợi ý nằm ở `PRIZE`.
+Bản sửa được lưu tự động **trong trình duyệt của máy đang mở**, không ảnh hưởng người khác. Muốn mang sang máy chiếu thì bấm **Xuất file** để tải `vat-bi-an.json`, rồi trên máy kia bấm **Nhập file**. **Về mặc định** để quay lại 6 vật ban đầu.
+
+Muốn đổi bản mặc định cho mọi người thì sửa `DEFAULT_ITEMS` trong `index.html` rồi push lên `main`.
+
+## Ghi chú kỹ thuật
+
+- Toàn bộ game nằm trong một file `index.html`: cảnh phòng khách vẽ bằng SVG, âm thanh và nhạc nền tự tổng hợp bằng Web Audio, không cần file ngoài.
+- Font Baloo 2 (SIL Open Font License 1.1) được nhúng sẵn trong file nên chạy offline vẫn đúng font.
