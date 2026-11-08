@@ -2,10 +2,12 @@
 
 Mini game mở đầu cho phần thuyết trình *Xây dựng gia đình Việt Nam trong thời kỳ quá độ lên chủ nghĩa xã hội*. Toàn bộ game nằm trong một file `index.html`, chạy offline, không cần cài đặt hay mạng. Thời lượng khoảng 4–5 phút.
 
+**Chơi ngay:** https://mln131-vat-bi-an.vercel.app
+
 ## Cách chạy
 
 - **Offline:** tải repo về (Code → Download ZIP), giải nén, mở `index.html` bằng Chrome hoặc Edge.
-- **Online:** bật GitHub Pages (Settings → Pages → Branch `main`, thư mục `/ (root)`), rồi mở link Pages.
+- **Online:** mở https://mln131-vat-bi-an.vercel.app. Trang được deploy trên Vercel từ nhánh `main`, mỗi lần push lên `main` sẽ tự cập nhật.
 
 Lần đầu bấm vào trang để trình duyệt cho phát âm thanh. Bấm **Toàn màn hình** khi chiếu.
 
